@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/rating-viewer/static/css/main.358b4a15.chunk.css",
+    "main.js": "/rating-viewer/static/js/main.06bcf394.chunk.js",
+    "main.js.map": "/rating-viewer/static/js/main.06bcf394.chunk.js.map",
+    "runtime-main.js": "/rating-viewer/static/js/runtime-main.16d83f3a.js",
+    "runtime-main.js.map": "/rating-viewer/static/js/runtime-main.16d83f3a.js.map",
+    "static/js/2.4495bd26.chunk.js": "/rating-viewer/static/js/2.4495bd26.chunk.js",
+    "static/js/2.4495bd26.chunk.js.map": "/rating-viewer/static/js/2.4495bd26.chunk.js.map",
+    "index.html": "/rating-viewer/index.html",
+    "static/css/main.358b4a15.chunk.css.map": "/rating-viewer/static/css/main.358b4a15.chunk.css.map",
+    "static/js/2.4495bd26.chunk.js.LICENSE.txt": "/rating-viewer/static/js/2.4495bd26.chunk.js.LICENSE.txt",
+    "static/media/Rune.css": "/rating-viewer/static/media/Numbers-Regular.d61bebca.otf",
+    "static/media/black.7f78a23f.svg": "/rating-viewer/static/media/black.7f78a23f.svg",
+    "static/media/blue.8fcc549b.svg": "/rating-viewer/static/media/blue.8fcc549b.svg",
+    "static/media/colorless.4af949b5.svg": "/rating-viewer/static/media/colorless.4af949b5.svg",
+    "static/media/green.1e9be629.svg": "/rating-viewer/static/media/green.1e9be629.svg",
+    "static/media/red.b8e69eab.svg": "/rating-viewer/static/media/red.b8e69eab.svg",
+    "static/media/white.99c7fe1b.svg": "/rating-viewer/static/media/white.99c7fe1b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.16d83f3a.js",
+    "static/js/2.4495bd26.chunk.js",
+    "static/css/main.358b4a15.chunk.css",
+    "static/js/main.06bcf394.chunk.js"
+  ]
+}
