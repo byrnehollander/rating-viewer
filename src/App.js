@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import Button from '@material-ui/core/Button'
-import Chip from '@material-ui/core/Chip'
+import FormControl from '@material-ui/core/FormControl'
 import IconButton from '@material-ui/core/IconButton'
+import InputLabel from '@material-ui/core/InputLabel'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Slider from '@material-ui/core/Slider'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
@@ -35,10 +37,6 @@ const FlexContainer = styled.div`
   flex-flow: row wrap;
 `
 
-const FlexBaselineContainer = styled(FlexContainer)`
-  align-items: baseline;
-`
-
 const ButtonContainer = styled.div`
   margin-top: 40px;
 `
@@ -64,26 +62,24 @@ const ManaCostContainer = styled.div`
   }
 `
 
+const SearchContainer = styled.div`
+  margin-bottom: 40px;
+`
+
+const SearchInputAndClearButton = styled.div`
+  display: flex;
+`
+
 const SliderContainer = styled.div`
   width: 300px;
   max-width: 90vw;
-`
-
-const RarityRow = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const SetIconLarge = styled.span`
   font-size: 30px;
 `
 
-const SetIconSmall = styled.span`
-  font-size: 22px;
-  margin-left: 10px;
-`
-
-const hasType = (card, types) => {
+/* const hasType = (card, types) => {
   if (!card.types) {
     return false
   }
@@ -94,7 +90,7 @@ const hasType = (card, types) => {
     }
   }
   return false
-}
+} */
 
 const hasColor = (card, colors) => {
   if (!card.colors) {
@@ -163,23 +159,6 @@ const SelectedRarityIconButton = withStyles({
   }
 })(IconButton)
 
-const StyledChip = withStyles({
-  root: {
-    marginLeft: 10,
-    width: 38,
-    height: 38,
-    borderRadius: '100%',
-    boxShadow: '-0.5px 2px 1px black'
-  },
-  label: {
-    fontFamily: 'Numbers',
-    fontSize: 27,
-    height: 43,
-    textOverflow: 'clip',
-    fontWeight: 600
-  }
-})(Chip)
-
 const TypographyShadow = styled(Typography)`
   text-shadow: 1px 2px 3px rgb(0 0 0 / 70%);
 `
@@ -194,12 +173,17 @@ const UnselectedIconButton = styled(IconButton)`
 const types = new Set(['Instant'])
 
 function App () {
+  const [searchTerm, setSearchTerm] = useState('')
   const [colors, setColors] = useState(new Set(['C', 'R', 'G', 'B', 'U', 'W']))
   const [maxCMC, setMaxCMC] = useState(3)
   const [rarities, setRarities] = useState(new Set(['common', 'uncommon', 'rare', 'mythic']))
 
   const getMatches = (types, maxCMC, colors) => {
-    return cards.filter(c => c.cmc <= maxCMC && hasType(c, types) && hasColor(c, colors) && hasRarity(c, rarities))
+    if (searchTerm.length > 0) {
+      return cards.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase().trim()))
+    } else {
+      return cards.filter(c => c.cmc === maxCMC && hasColor(c, colors) && hasRarity(c, rarities))
+    }
   }
 
   const renderMatches = (types, maxCMC, colors) => {
@@ -207,140 +191,36 @@ function App () {
     if (matches.length === 0) {
       return <TypographyShadow variant='h6' gutterBottom>No cards match your filters</TypographyShadow>
     }
-    const images = []
-    for (let i = maxCMC; i > 0; i--) {
-      images.push(renderMatchesByCMC(matches, i))
-    }
-    return images
-  }
-
-  const filterByCMC = (elements, CMC) => {
-    return elements.filter(e => e.cmc === CMC)
-  }
-
-  const renderImagesByRarity = (cards) => {
-    const commons = cards.filter(c => c.rarity === 'common')
-    const uncommons = cards.filter(c => c.rarity === 'uncommon')
-    const rares = cards.filter(c => c.rarity === 'rare')
-    const mythics = cards.filter(c => c.rarity === 'mythic')
-    return (
-      <div>
-        {
-          commons.length > 0
-            ? (
-              <div>
-                <Typography
-                  variant='h6'
-                  style={{ fontSize: 16 }}
-                  gutterBottom
-                >
-                  <RarityRow>
-                    {commons.length === 1 ? '1 Common' : `${commons.length} Commons`}
-                    <SetIconSmall className='ss ss-common ss-grad ss-stx' />
-                  </RarityRow>
-                </Typography>
-                <FlexContainer>
-                  {renderImages(commons)}
-                </FlexContainer>
-              </div>
-              )
-            : ''
-        }
-        {
-          uncommons.length > 0
-            ? (
-              <div>
-                <Typography
-                  variant='h6'
-                  style={{ fontSize: 16 }}
-                  gutterBottom
-                >
-                  <RarityRow>
-                    {uncommons.length === 1 ? '1 Uncommon' : `${uncommons.length} Uncommons`}
-                    <SetIconSmall className='ss ss-uncommon ss-grad ss-stx' />
-                  </RarityRow>
-                </Typography>
-                <FlexContainer>
-                  {renderImages(uncommons)}
-                </FlexContainer>
-              </div>
-              )
-            : ''
-        }
-        {
-          rares.length > 0
-            ? (
-              <div>
-                <Typography
-                  variant='h6'
-                  style={{ fontSize: 16 }}
-                  gutterBottom
-                >
-                  <RarityRow>
-                    {rares.length === 1 ? '1 Rare' : `${rares.length} Rares`}
-                    <SetIconSmall className='ss ss-rare ss-grad ss-stx' />
-                  </RarityRow>
-                </Typography>
-                <FlexContainer>
-                  {renderImages(rares)}
-                </FlexContainer>
-              </div>
-              )
-            : ''
-        }
-        {
-          mythics.length > 0
-            ? (
-              <div>
-                <Typography
-                  variant='h6'
-                  style={{ fontSize: 16 }}
-                  gutterBottom
-                >
-                  <RarityRow>
-                    {mythics.length === 1 ? '1 Mythic' : `${mythics.length} Mythics`}
-                    <SetIconSmall className='ss ss-mythic ss-grad ss-stx' />
-                  </RarityRow>
-                </Typography>
-                <FlexContainer>
-                  {renderImages(mythics)}
-                </FlexContainer>
-              </div>
-              )
-            : ''
-        }
-      </div>
-    )
+    return renderMatchesByCMC(matches, maxCMC)
   }
 
   const renderImages = (cards) => {
     return cards.map((c, i) => {
       return (
-        <Tilty
-          scale={1.12}
-          max={8}
-          style={{ minWidth: 260, marginRight: 10, marginBottom: 20 }}
-          key={i}
-        >
-          <img src={c.image} alt={c.name} />
-        </Tilty>
+        <div key={i}>
+          <Tilty
+            scale={1.05}
+            max={8}
+            style={{ minWidth: 330, marginRight: 20, marginBottom: 20 }}
+          >
+            <img src={c.image} alt={c.name} />
+          </Tilty>
+          <div style={{ display: 'flex', width: 310, marginLeft: 10, marginBottom: 70 }}>
+            <b style={{ marginRight: 20, fontSize: 20 }}>{c.rating.toFixed(1)}</b>
+            <div style={{ fontSize: 18 }}>{c.ratingDescription}</div>
+          </div>
+        </div>
       )
     })
   }
 
   const renderMatchesByCMC = (elements, CMC) => {
-    const filteredCards = filterByCMC(elements, CMC).sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) => b.rating - a.rating)
+    const filteredCards = elements.sort((a, b) => a.name.localeCompare(b.name)).sort((a, b) => b.rating - a.rating)
     if (filteredCards.length > 0) {
       return (
-        <div style={{ marginBottom: 30 }}>
-          <FlexBaselineContainer>
-            <TypographyShadow variant='h5' style={{ fontWeight: 600, height: 38 }}>
-              MANA VALUE
-            </TypographyShadow>
-            <StyledChip label={CMC} />
-          </FlexBaselineContainer>
-          {renderImagesByRarity(filteredCards)}
-        </div>
+        <FlexContainer>
+          {renderImages(filteredCards)}
+        </FlexContainer>
       )
     }
   }
@@ -367,7 +247,7 @@ function App () {
 
   return (
     <Container>
-      <TypographyShadow variant='h3' gutterBottom>What instants could my opponent have?</TypographyShadow>
+      <TypographyShadow variant='h3' gutterBottom>How good is this card?</TypographyShadow>
       <OptionsContainer>
         <ButtonContainer>
           <ColorsHeader>
@@ -557,8 +437,8 @@ function App () {
           </Tooltip>
         </RarityContainer>
         <ManaCostContainer>
-          <Tooltip title='How much mana your opponent has up' placement='top-start'>
-            <TypographyShadow style={{ marginBottom: 38 }} variant='h6' gutterBottom>MAX CMC</TypographyShadow>
+          <Tooltip title={'The card\'s mana value'} placement='top-start'>
+            <TypographyShadow style={{ marginBottom: 38 }} variant='h6' gutterBottom>CMC</TypographyShadow>
           </Tooltip>
           <SliderContainer>
             <Slider
@@ -578,6 +458,23 @@ function App () {
           </SliderContainer>
         </ManaCostContainer>
       </OptionsContainer>
+      <SearchContainer>
+        <SearchInputAndClearButton>
+          <FormControl color='secondary' variant='outlined' style={{ width: 300 }}>
+            <InputLabel style={{ color: 'white' }} htmlFor='search-input'>Search</InputLabel>
+            <OutlinedInput color='secondary' id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label='Search' />
+          </FormControl>
+          <Button
+            size='large'
+            variant='outlined'
+            color='default'
+            style={{ marginLeft: 20 }}
+            onClick={() => setSearchTerm('')}
+          >Clear
+          </Button>
+        </SearchInputAndClearButton>
+        <div style={{ marginLeft: 5, marginTop: 10 }}>When searching, your other filters will be ignored</div>
+      </SearchContainer>
       {renderMatches(types, maxCMC, colors)}
     </Container>
   )
