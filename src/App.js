@@ -4,7 +4,6 @@ import FormControl from '@material-ui/core/FormControl'
 import IconButton from '@material-ui/core/IconButton'
 import InputLabel from '@material-ui/core/InputLabel'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
-import Slider from '@material-ui/core/Slider'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
@@ -54,25 +53,12 @@ const RarityContainer = styled.div`
   }
 `
 
-const ManaCostContainer = styled.div`
-  margin-left: 50px;
-  margin-top: 40px;
-  @media only screen and (max-width: 1300px) {
-    margin-left: 0px;
-  }
-`
-
 const SearchContainer = styled.div`
   margin-bottom: 40px;
 `
 
 const SearchInputAndClearButton = styled.div`
   display: flex;
-`
-
-const SliderContainer = styled.div`
-  width: 300px;
-  max-width: 90vw;
 `
 
 const SetIconLarge = styled.span`
@@ -175,23 +161,22 @@ const types = new Set(['Instant'])
 function App () {
   const [searchTerm, setSearchTerm] = useState('')
   const [colors, setColors] = useState(new Set(['C', 'R', 'G', 'B', 'U', 'W']))
-  const [maxCMC, setMaxCMC] = useState(3)
   const [rarities, setRarities] = useState(new Set(['common', 'uncommon', 'rare', 'mythic']))
 
-  const getMatches = (types, maxCMC, colors) => {
+  const getMatches = (types, colors) => {
     if (searchTerm.length > 0) {
       return cards.filter(c => c.name.toLowerCase().includes(searchTerm.toLowerCase().trim()))
     } else {
-      return cards.filter(c => c.cmc === maxCMC && hasColor(c, colors) && hasRarity(c, rarities))
+      return cards.filter(c => hasColor(c, colors) && hasRarity(c, rarities))
     }
   }
 
-  const renderMatches = (types, maxCMC, colors) => {
-    const matches = getMatches(types, maxCMC, colors)
+  const renderMatches = (types, colors) => {
+    const matches = getMatches(types, colors)
     if (matches.length === 0) {
       return <TypographyShadow variant='h6' gutterBottom>No cards match your filters</TypographyShadow>
     }
-    return renderMatchesByCMC(matches, maxCMC)
+    return renderMatchesByCMC(matches)
   }
 
   const renderImages = (cards) => {
@@ -436,27 +421,6 @@ function App () {
                 )}
           </Tooltip>
         </RarityContainer>
-        <ManaCostContainer>
-          <Tooltip title={'The card\'s mana value'} placement='top-start'>
-            <TypographyShadow style={{ marginBottom: 38 }} variant='h6' gutterBottom>CMC</TypographyShadow>
-          </Tooltip>
-          <SliderContainer>
-            <Slider
-              defaultValue={3}
-              aria-labelledby='discrete-slider-always'
-              step={1}
-              marks
-              min={0}
-              max={8}
-              valueLabelDisplay='on'
-              onChange={(_, v) => {
-                if (v !== maxCMC) {
-                  setMaxCMC(v)
-                }
-              }}
-            />
-          </SliderContainer>
-        </ManaCostContainer>
       </OptionsContainer>
       <SearchContainer>
         <SearchInputAndClearButton>
@@ -475,7 +439,7 @@ function App () {
         </SearchInputAndClearButton>
         <div style={{ marginLeft: 5, marginTop: 10 }}>When searching, your other filters will be ignored</div>
       </SearchContainer>
-      {renderMatches(types, maxCMC, colors)}
+      {renderMatches(types, colors)}
     </Container>
   )
 }
