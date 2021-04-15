@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
 import IconButton from '@material-ui/core/IconButton'
@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
+import { useHotkeys } from 'react-hotkeys-hook'
 import Tilty from 'react-tilty'
 import './App.css'
 import './Rune.css'
@@ -159,9 +160,12 @@ const UnselectedIconButton = styled(IconButton)`
 const types = new Set(['Instant'])
 
 function App () {
+  const textInput = useRef(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [colors, setColors] = useState(new Set(['C', 'R', 'G', 'B', 'U', 'W']))
   const [rarities, setRarities] = useState(new Set(['common', 'uncommon', 'rare', 'mythic']))
+
+  useHotkeys('cmd+k', () => textInput.current.focus())
 
   const getMatches = (types, colors) => {
     if (searchTerm.length > 0) {
@@ -430,7 +434,7 @@ function App () {
         <SearchInputAndClearButton>
           <FormControl color='secondary' variant='outlined' style={{ width: 300 }}>
             <InputLabel style={{ color: 'white' }} htmlFor='search-input'>Search</InputLabel>
-            <OutlinedInput color='secondary' id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label='Search' />
+            <OutlinedInput autoFocus inputRef={textInput} color='secondary' id='search-input' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} label='Search' />
           </FormControl>
           <Button
             size='large'
