@@ -180,17 +180,21 @@ function App () {
   }
 
   const renderImages = (cards) => {
+    let smallMode = false
+    if (cards.length > 2) {
+      smallMode = true
+    }
     return cards.map((c, i) => {
       return (
         <div key={i}>
           <Tilty
             scale={1.05}
             max={8}
-            style={{ minWidth: 330, marginRight: 20, marginBottom: 20 }}
+            style={{ minWidth: smallMode ? 330 : 450, marginRight: 20, marginBottom: 20 }}
           >
-            <img src={c.image} alt={c.name} />
+            <img src={c.image} alt={c.name} width={smallMode ? 320 : 440} />
           </Tilty>
-          <div style={{ display: 'flex', width: 310, marginLeft: 10, marginBottom: 70 }}>
+          <div style={{ display: 'flex', width: smallMode ? 310 : 420, marginLeft: smallMode ? 10 : 30, marginBottom: 70 }}>
             <b style={{ marginRight: 20, fontSize: 20 }}>{c.rating.toFixed(1)}</b>
             <div style={{ fontSize: 18 }}>{c.ratingDescription}</div>
           </div>
