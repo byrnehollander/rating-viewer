@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/rating-viewer/static/css/main.9c0cabd6.chunk.css",
-    "main.js": "/rating-viewer/static/js/main.1d7c4f09.chunk.js",
-    "main.js.map": "/rating-viewer/static/js/main.1d7c4f09.chunk.js.map",
+    "main.css": "/rating-viewer/static/css/main.b997b16a.chunk.css",
+    "main.js": "/rating-viewer/static/js/main.579b21b2.chunk.js",
+    "main.js.map": "/rating-viewer/static/js/main.579b21b2.chunk.js.map",
     "runtime-main.js": "/rating-viewer/static/js/runtime-main.16d83f3a.js",
     "runtime-main.js.map": "/rating-viewer/static/js/runtime-main.16d83f3a.js.map",
     "static/js/2.31c6806e.chunk.js": "/rating-viewer/static/js/2.31c6806e.chunk.js",
     "static/js/2.31c6806e.chunk.js.map": "/rating-viewer/static/js/2.31c6806e.chunk.js.map",
     "index.html": "/rating-viewer/index.html",
-    "static/css/main.9c0cabd6.chunk.css.map": "/rating-viewer/static/css/main.9c0cabd6.chunk.css.map",
+    "static/css/main.b997b16a.chunk.css.map": "/rating-viewer/static/css/main.b997b16a.chunk.css.map",
     "static/js/2.31c6806e.chunk.js.LICENSE.txt": "/rating-viewer/static/js/2.31c6806e.chunk.js.LICENSE.txt",
     "static/media/Rune.css": "/rating-viewer/static/media/Numbers-Regular.d61bebca.otf",
     "static/media/black.7f78a23f.svg": "/rating-viewer/static/media/black.7f78a23f.svg",
@@ -21,7 +21,7 @@
   "entrypoints": [
     "static/js/runtime-main.16d83f3a.js",
     "static/js/2.31c6806e.chunk.js",
-    "static/css/main.9c0cabd6.chunk.css",
-    "static/js/main.1d7c4f09.chunk.js"
+    "static/css/main.b997b16a.chunk.css",
+    "static/js/main.579b21b2.chunk.js"
   ]
 }
